@@ -1,4 +1,4 @@
-require_relative '../lib/service_container'
+require_relative '../lib/di'
 
 # test doubles
 class MyLogger; end
@@ -8,7 +8,7 @@ class DBConnection
   end
 end
 
-RSpec.describe ServiceContainer do
+RSpec.describe DI::ServiceContainer do
   it 'instantiates without errors' do
     expect(subject).not_to be_nil
   end

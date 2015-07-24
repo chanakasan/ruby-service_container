@@ -27,4 +27,12 @@ RSpec.describe DI::ServiceContainer do
 
     expect(subject.get(:db_connection)).to be_kind_of(DBConnection)
   end
+
+  it 'returns the same instance of a service' do
+    subject.set(:logger) { MyLogger.new }
+    logger1 = subject.get(:logger)
+    logger2 = subject.get(:logger)
+
+    expect(logger1).to eql(logger2)
+  end
 end

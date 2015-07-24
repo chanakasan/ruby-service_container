@@ -17,6 +17,7 @@ module DI
 
     def initialize
       @services = {}
+      @cache = {}
     end
 
     # Registers a service named +name+.  The +block+ will be used to
@@ -29,8 +30,9 @@ module DI
       @services[name] = block
     end
 
+    # Retrieves a service named +name+
     def get(name)
-      service_block(name).call(self)
+      @cache[name] ||= service_block(name).call(self)
     end
 
     # Return the block that creates the named service.  Throw an
@@ -38,6 +40,11 @@ module DI
     # found in the container
     def service_block(name)
       @services[name] || fail(MissingServiceError, "No service is registered with the name '#{name}'")
+    end
+
+    # Resets the cached services
+    def clear_cache!
+      @cache = {}
     end
   end
 end

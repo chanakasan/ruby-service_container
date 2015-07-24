@@ -35,4 +35,15 @@ RSpec.describe DI::ServiceContainer do
 
     expect(logger1).to eql(logger2)
   end
+
+  context 'Error handling' do
+    it 'raises an error for missing service' do
+      expect{ subject.get(:an_unregistered_service) }.to raise_error(DI::ServiceContainer::MissingServiceError)
+    end
+
+    it 'raises an error for duplicate service name' do
+      subject.set(:logger) { MyLogger.new }
+      expect{ subject.set(:logger) { MyLogger.new } }.to raise_error(DI::ServiceContainer::DuplicateServiceError)
+    end
+  end
 end
